@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+    <style>
+        body {
+            background-image: url(https://wallpaperaccess.com/full/895.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin-top: 30px;
+            
+        }
+        /* @media screen and (max-width:600px) {
+            body{background-color: aqua;}
+        } */
+        .weatherr {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            top: 300px;
+        }
+
+        h4 {
+            position: relative;
+            top: 280px;
+            -webkit-text-stroke-color: black;
+            text-shadow: 1px 2px black;
+            left: 50px;
+            font-size: 18px;
+            color:white;
+        }
+
+         input{
+            position: relative;
+            /* left:140px; */
+            top: 200px;
+            left: 40px;
+        } 
+        button{
+            position: relative;
+            left: 40px;
+            top: 200px;
+        } 
+        .txt {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            top: 250px;
+            height: 30px;
+        }
+
+        h1 {
+            position: absolute;
+            top: 180px;
+            left: 620px;
+            -webkit-text-stroke-color: azurex;
+            text-shadow: 3px 1px azure;
+        }
+
+        svg {
+            position: absolute;
+            left: 940px;
+            top: 32px;
+        }
+
+        h3 {
+            position: absolute;
+            left: 684px;
+            top: 130px;
+            color: whitesmoke;
+            -webkit-animation-fill-mode: both;
+            text-shadow: 0 0 10px red;
+            /* text-align: center; */
+        }
+
+        #imgg {
+            position: absolute;
+            height: 150px;
+            width: 200px;
+            top: 360px;
+            right: 630px;
+        }
+        .wrap{
+            position: absolute;
+            left: -30px;
+            bottom: 0px;
+            height: 904px;
+            width: 1557px;
+            background: rgb(224, 223, 223,0.3);
+            backdrop-filter: blur(3px);
+        
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <h1>COUNTRY DETAILS API</h1>
+        <div class="weatherr">
+            <input type="text" id="int">
+            <button id="btn" >search</button>
+            <br><br>
+        </div>
+        <div class="txt">
+            <h3>ENTER YOUR COUNTRY NAME</h3>
+            <h4 id="we"></h4>
+            <img src="" alt="" id="imgg">
+
+        </div>
+    </div>
+    <script>
+        // function handleChage(e){
+        //     e.target.value()
+        // }
+        document.getElementById('imgg').style.display = 'none'
+        document.getElementById('btn').addEventListener('click', clickBtn)
+        function clickBtn() {
+            let ftt = document.getElementById('int').value
+            let url = `https://restcountries.com//v2/name/${ftt}`
+            let fetched_url = fetch(url)
+            fetched_url.then((Response) => {
+                if (!Response.ok) {
+                    throw new Error("network is not responding")
+                }
+                else {
+                    return Response.json()
+                }
+            })
+           .then((data) => {
+                    for (i in data) {
+                        console.log(`Country Name:${data[i].name} \n Calling code:${data[i].callingcodes} \n \n CAPITAL: ${data[i].capital} \n REGION: ${data[i].region} \n POPULATION: ${data[i].population} ${data[i].flags}`)
+                    }
+                    document.getElementById("we").innerHTML = `<br><br> Country Name:${data[i].name} <br> Calling code:${data[i].callingCodes} <br> CAPITAL: ${data[i].capital} <br> REGION: ${data[i].region} <br> POPULATION: ${data[i].population}`
+                    document.getElementById('imgg').style.display = 'block'
+                    document.getElementById('imgg').src = data[i].flag
+                })
+
+                .catch((error) => {
+                    document.getElementById("we").innerHTML = `<br><br>${error}`
+                    console.log("there is a problem with fetch operation", error)
+                })
+        }
+    </script>
+</body>
+
+</html>
